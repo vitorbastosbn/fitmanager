@@ -52,7 +52,8 @@ export class BottomNavComponent {
         { label: 'Início', route: '/dashboard', icon: '🏠' },
         { label: 'Treino', route: '/treinos/me', icon: '🏋️' },
         { label: 'QR Code', route: '/frequencia/meu-qrcode', icon: '📱', destaque: true },
-        { label: 'Faturas', route: '/financeiro', icon: '💳' }
+        { label: 'Faturas', route: '/financeiro', icon: '💳' },
+        { label: 'Privacidade', route: '/privacidade', icon: '⚖️' }
       ];
     }
 

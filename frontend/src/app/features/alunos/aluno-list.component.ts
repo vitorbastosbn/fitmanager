@@ -5,11 +5,12 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Aluno, Page } from '../../core/models/aluno.models';
 import { AlunoService } from '../../core/services/aluno.service';
 import { AlunoFormComponent } from './aluno-form.component';
+import { MascararCpfPipe } from '../../shared/pipes/mascarar-cpf.pipe';
 
 @Component({
   selector: 'app-aluno-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AlunoFormComponent],
+  imports: [CommonModule, ReactiveFormsModule, AlunoFormComponent, MascararCpfPipe],
   template: `
     <div class="space-y-6">
       <!-- Cabeçalho da Página -->
@@ -88,7 +89,7 @@ import { AlunoFormComponent } from './aluno-form.component';
                       <div class="text-xs text-slate-400">{{ aluno.email }} • {{ aluno.telefone }}</div>
                     </td>
                     <td class="py-4 px-6 font-mono text-xs text-slate-300">
-                      {{ aluno.cpf }}
+                      {{ aluno.cpf | mascararCpf }}
                     </td>
                     <td class="py-4 px-6">
                       <span

@@ -107,19 +107,42 @@
                 Planos & Matrículas
               </a>
             }
+
+            @if (authService.currentUser()?.perfil === 'ROLE_ADMIN') {
+              <a
+                routerLink="/admin/lgpd-auditoria"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Auditoria LGPD
+              </a>
+            }
+
+            <a
+              routerLink="/privacidade"
+              routerLinkActive="bg-neutral-800 text-white font-bold"
+              class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors flex items-center gap-1.5"
+            >
+              <span>⚖️</span>
+              Privacidade
+            </a>
           </nav>
         </div>
 
         <!-- User Badge & Logout -->
         <div class="flex items-center gap-3">
-          <div class="text-right hidden sm:block">
-            <span class="block text-xs font-bold text-white leading-tight">
+          <a
+            routerLink="/privacidade"
+            class="text-right hidden sm:block group cursor-pointer"
+            title="Acessar Central de Privacidade e Dados (LGPD)"
+          >
+            <span class="block text-xs font-bold text-white group-hover:text-amber-400 transition-colors leading-tight">
               {{ authService.currentUser()?.nome }}
             </span>
             <span class="text-[10px] uppercase font-bold tracking-wider text-amber-500">
               {{ formatarPerfil(authService.currentUser()?.perfil) }}
             </span>
-          </div>
+          </a>
 
           <button
             (click)="logout()"
@@ -144,6 +167,9 @@
   @if (authService.currentUser()?.primeiroAcesso) {
     <app-primeiro-acesso-modal />
   }
+
+  <!-- LGPD Consentimento Modal (ADR-015) -->
+  <app-consentimento-modal />
 
   <!-- Footer (ocultado em mobile para priorizar a bottom navigation) -->
   <footer class="hidden md:block border-t border-neutral-800/60 py-6 text-center text-xs text-neutral-600">

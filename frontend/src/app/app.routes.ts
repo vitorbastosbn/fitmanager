@@ -12,6 +12,8 @@ import { FichaPrescricaoFormComponent } from './features/treinos/ficha-prescrica
 import { FichaVisualizacaoMobileComponent } from './features/treinos/ficha-visualizacao-mobile.component';
 import { ColaboradorListComponent } from './features/colaboradores/colaborador-list.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { PrivacidadePainelComponent } from './features/lgpd/privacidade-painel.component';
+import { AuditoriaLgpdComponent } from './features/lgpd/auditoria-lgpd.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -39,6 +41,10 @@ export const routes: Routes = [
   { path: 'treinos/exercicios', component: ExercicioCatalogoComponent, canActivate: [authGuard] },
   { path: 'treinos/prescrever', component: FichaPrescricaoFormComponent, canActivate: [authGuard] },
   { path: 'treinos/me', component: FichaVisualizacaoMobileComponent, canActivate: [authGuard] },
+
+  // LGPD & Privacidade
+  { path: 'privacidade', component: PrivacidadePainelComponent, canActivate: [authGuard] },
+  { path: 'admin/lgpd-auditoria', component: AuditoriaLgpdComponent, canActivate: [authGuard] },
 
   { path: '**', redirectTo: 'login' }
 ];

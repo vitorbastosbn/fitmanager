@@ -90,7 +90,8 @@ class TreinoControllerTest {
         fichaTreinoRepository.deleteAll();
         exercicioRepository.deleteAll();
         alunoRepository.deleteAll();
-        usuarioRepository.deleteAll();
+        usuarioRepository.findByEmail("aluno.treino@fitmanager.com").ifPresent(usuarioRepository::delete);
+        usuarioRepository.findByEmail("instrutor@fitmanager.com").ifPresent(usuarioRepository::delete);
 
         Usuario alunoUser = new Usuario(
                 null,

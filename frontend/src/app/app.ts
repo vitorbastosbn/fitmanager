@@ -4,11 +4,12 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { AuthService } from './core/services/auth.service';
 import { PrimeiroAcessoModalComponent } from './features/auth/primeiro-acesso-modal.component';
 import { BottomNavComponent } from './core/components/bottom-nav.component';
+import { ConsentimentoModalComponent } from './features/lgpd/consentimento-modal.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, PrimeiroAcessoModalComponent, BottomNavComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, PrimeiroAcessoModalComponent, BottomNavComponent, ConsentimentoModalComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

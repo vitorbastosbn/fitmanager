@@ -48,6 +48,11 @@ class ColaboradorControllerTest {
         colaboradorRepository.deleteAll();
     }
 
+    @org.junit.jupiter.api.AfterEach
+    void tearDown() {
+        colaboradorRepository.deleteAll();
+    }
+
     @Test
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Deve cadastrar colaborador instrutor com CREF com sucesso")
