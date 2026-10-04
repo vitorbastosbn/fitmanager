@@ -11,10 +11,11 @@ import { ExercicioCatalogoComponent } from './features/treinos/exercicio-catalog
 import { FichaPrescricaoFormComponent } from './features/treinos/ficha-prescricao-form.component';
 import { FichaVisualizacaoMobileComponent } from './features/treinos/ficha-visualizacao-mobile.component';
 import { ColaboradorListComponent } from './features/colaboradores/colaborador-list.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'dashboard', redirectTo: 'alunos', pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
 
   // Colaboradores (Gestão de Equipe)

@@ -20,4 +20,10 @@ public interface CheckInRepository extends JpaRepository<CheckIn, Long> {
 
     @Query("SELECT c FROM CheckIn c JOIN FETCH c.aluno WHERE c.dataHora >= :inicio AND c.dataHora <= :fim ORDER BY c.dataHora DESC")
     List<CheckIn> findByDataHoraBetweenWithAluno(@Param("inicio") OffsetDateTime inicio, @Param("fim") OffsetDateTime fim);
+
+    long countByStatusAndDataHoraBetween(StatusAcessoCheckin status, OffsetDateTime inicio, OffsetDateTime fim);
+
+    long countByAlunoIdAndStatusAndDataHoraBetween(Long alunoId, StatusAcessoCheckin status, OffsetDateTime inicio, OffsetDateTime fim);
+
+    List<CheckIn> findTop10ByOrderByDataHoraDesc();
 }

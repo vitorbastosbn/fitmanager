@@ -5,7 +5,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         <!-- Logo Brand -->
         <div class="flex items-center gap-6">
-          <a routerLink="/" class="flex items-center gap-2 group">
+          <a routerLink="/dashboard" class="flex items-center gap-2 group">
             <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-black font-black text-lg shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
               F
             </div>
@@ -16,6 +16,14 @@
 
           <!-- Navigation Links by Role -->
           <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+            <a
+              routerLink="/dashboard"
+              routerLinkActive="bg-neutral-800 text-white font-bold"
+              class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+            >
+              Dashboard
+            </a>
+
             @if (authService.currentUser()?.perfil === 'ROLE_ALUNO') {
               <a
                 routerLink="/treinos/me"
