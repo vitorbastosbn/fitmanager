@@ -10,11 +10,15 @@ import { TerminalScannerComponent } from './features/frequencia/terminal-scanner
 import { ExercicioCatalogoComponent } from './features/treinos/exercicio-catalogo.component';
 import { FichaPrescricaoFormComponent } from './features/treinos/ficha-prescricao-form.component';
 import { FichaVisualizacaoMobileComponent } from './features/treinos/ficha-visualizacao-mobile.component';
+import { ColaboradorListComponent } from './features/colaboradores/colaborador-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'dashboard', redirectTo: 'alunos', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+
+  // Colaboradores (Gestão de Equipe)
+  { path: 'colaboradores', component: ColaboradorListComponent, canActivate: [authGuard] },
 
   // Alunos
   { path: 'alunos', component: AlunoListComponent, canActivate: [authGuard] },

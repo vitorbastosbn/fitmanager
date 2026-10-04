@@ -58,6 +58,16 @@
               </a>
             }
 
+            @if (authService.currentUser()?.perfil === 'ROLE_ADMIN') {
+              <a
+                routerLink="/colaboradores"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Colaboradores
+              </a>
+            }
+
             @if (authService.currentUser()?.perfil === 'ROLE_ADMIN' || authService.currentUser()?.perfil === 'ROLE_RECEPCIONISTA') {
               <a
                 routerLink="/frequencia/terminal"
