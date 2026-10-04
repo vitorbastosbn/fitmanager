@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: fitmanager-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fitmanager_db
+    username: fitmanager
+    password: fitmanager_pwd
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  mvc:
+    problemdetails:
+      enabled: true
+
+app:
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration-ms: 86400000 # 24 horas
+    qr-secret: 6250645367566B5970404E635266556A586E3272357538782F413F4428472B4B
+    qr-expiration-seconds: 60
