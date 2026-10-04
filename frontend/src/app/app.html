@@ -1,0 +1,131 @@
+<div class="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans selection:bg-amber-500 selection:text-black">
+  <!-- Top Navigation Bar -->
+  @if (authService.isAuthenticated()) {
+    <header class="sticky top-0 z-40 bg-neutral-900/90 backdrop-blur-md border-b border-neutral-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <!-- Logo Brand -->
+        <div class="flex items-center gap-6">
+          <a routerLink="/" class="flex items-center gap-2 group">
+            <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center text-black font-black text-lg shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+              F
+            </div>
+            <span class="font-black text-xl tracking-tight text-white">
+              FIT<span class="text-amber-500">MANAGER</span>
+            </span>
+          </a>
+
+          <!-- Navigation Links by Role -->
+          <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+            @if (authService.currentUser()?.perfil === 'ROLE_ALUNO') {
+              <a
+                routerLink="/treinos/me"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Meu Treino
+              </a>
+              <a
+                routerLink="/frequencia/meu-qrcode"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors flex items-center gap-1.5"
+              >
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                Check-in QR Code
+              </a>
+              <a
+                routerLink="/financeiro"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Minhas Faturas
+              </a>
+            }
+
+            @if (authService.currentUser()?.perfil === 'ROLE_ADMIN' || authService.currentUser()?.perfil === 'ROLE_INSTRUTOR') {
+              <a
+                routerLink="/treinos/prescrever"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Prescrever Treino
+              </a>
+              <a
+                routerLink="/treinos/exercicios"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Catálogo de Exercícios
+              </a>
+            }
+
+            @if (authService.currentUser()?.perfil === 'ROLE_ADMIN' || authService.currentUser()?.perfil === 'ROLE_RECEPCIONISTA') {
+              <a
+                routerLink="/frequencia/terminal"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors flex items-center gap-1.5"
+              >
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Terminal Check-in
+              </a>
+              <a
+                routerLink="/alunos"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Alunos
+              </a>
+              <a
+                routerLink="/financeiro"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Financeiro
+              </a>
+              <a
+                routerLink="/planos"
+                routerLinkActive="bg-neutral-800 text-white font-bold"
+                class="px-3 py-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
+              >
+                Planos & Matrículas
+              </a>
+            }
+          </nav>
+        </div>
+
+        <!-- User Badge & Logout -->
+        <div class="flex items-center gap-3">
+          <div class="text-right hidden sm:block">
+            <span class="block text-xs font-bold text-white leading-tight">
+              {{ authService.currentUser()?.nome }}
+            </span>
+            <span class="text-[10px] uppercase font-bold tracking-wider text-amber-500">
+              {{ formatarPerfil(authService.currentUser()?.perfil) }}
+            </span>
+          </div>
+
+          <button
+            (click)="logout()"
+            class="px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-xs font-semibold text-neutral-300 hover:text-white transition-colors"
+          >
+            Sair
+          </button>
+        </div>
+      </div>
+    </header>
+  }
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+    <router-outlet />
+  </main>
+
+  <!-- First Access Mandatory Password Reset Modal (ADR-008) -->
+  @if (authService.currentUser()?.primeiroAcesso) {
+    <app-primeiro-acesso-modal />
+  }
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-800/60 py-6 text-center text-xs text-neutral-600">
+    <p>FitManager MVP &bull; Gestão de Academias, Alunos, Frequência e Treinos</p>
+  </footer>
+</div>
