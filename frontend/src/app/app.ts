@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth.service';
 import { PrimeiroAcessoModalComponent } from './features/auth/primeiro-acesso-modal.component';
+import { BottomNavComponent } from './core/components/bottom-nav.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, PrimeiroAcessoModalComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, PrimeiroAcessoModalComponent, BottomNavComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

@@ -96,17 +96,19 @@ import { DivisaoTreino, ItemDivisao, RegistrarExecucaoRequest } from '../../core
                           <label class="block text-[10px] uppercase text-neutral-400 font-bold mb-1">Carga Real (kg)</label>
                           <input
                             type="number"
+                            inputmode="decimal"
                             step="0.5"
                             [(ngModel)]="execucaoCarga"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-700 px-3 py-2 text-white font-mono text-sm focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-xl bg-neutral-900 border border-neutral-700 px-3 py-2 text-white font-mono text-sm focus:border-amber-500 focus:outline-none min-h-[44px]"
                           />
                         </div>
                         <div>
                           <label class="block text-[10px] uppercase text-neutral-400 font-bold mb-1">Reps Cumpridas</label>
                           <input
                             type="number"
+                            inputmode="numeric"
                             [(ngModel)]="execucaoReps"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-700 px-3 py-2 text-white font-mono text-sm focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-xl bg-neutral-900 border border-neutral-700 px-3 py-2 text-white font-mono text-sm focus:border-amber-500 focus:outline-none min-h-[44px]"
                           />
                         </div>
                       </div>
@@ -115,7 +117,7 @@ import { DivisaoTreino, ItemDivisao, RegistrarExecucaoRequest } from '../../core
                         <button
                           type="button"
                           (click)="itemEmEdicao.set(null)"
-                          class="px-3 py-1.5 rounded-xl text-xs text-neutral-400 hover:text-white"
+                          class="px-4 py-2.5 rounded-xl text-xs text-neutral-400 hover:text-white min-h-[44px] flex items-center"
                         >
                           Cancelar
                         </button>
@@ -123,7 +125,7 @@ import { DivisaoTreino, ItemDivisao, RegistrarExecucaoRequest } from '../../core
                           type="button"
                           (click)="salvarExecucao(item)"
                           [disabled]="salvando()"
-                          class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs transition-colors"
+                          class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs transition-colors min-h-[44px] flex items-center"
                         >
                           {{ salvando() ? 'Salvando...' : 'Salvar Carga' }}
                         </button>
@@ -133,7 +135,7 @@ import { DivisaoTreino, ItemDivisao, RegistrarExecucaoRequest } from '../../core
                     <button
                       type="button"
                       (click)="abrirRegistroExecucao(item)"
-                      class="w-full py-2.5 rounded-2xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
+                      class="w-full py-3 rounded-2xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 min-h-[44px]"
                     >
                       <span class="text-amber-400 font-bold">+</span> Registrar Carga de Hoje
                     </button>

@@ -132,18 +132,21 @@
     </header>
   }
 
-  <!-- Main Content Area -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+  <!-- Main Content Area (com padding-bottom 96px no mobile para não sobrepor o BottomNav) -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 pb-24 md:pb-8">
     <router-outlet />
   </main>
+
+  <!-- Bottom Navigation Bar Mobile (Thumb Zone) -->
+  <app-bottom-nav />
 
   <!-- First Access Mandatory Password Reset Modal (ADR-008) -->
   @if (authService.currentUser()?.primeiroAcesso) {
     <app-primeiro-acesso-modal />
   }
 
-  <!-- Footer -->
-  <footer class="border-t border-neutral-800/60 py-6 text-center text-xs text-neutral-600">
+  <!-- Footer (ocultado em mobile para priorizar a bottom navigation) -->
+  <footer class="hidden md:block border-t border-neutral-800/60 py-6 text-center text-xs text-neutral-600">
     <p>FitManager MVP &bull; Gestão de Academias, Alunos, Frequência e Treinos</p>
   </footer>
 </div>
