@@ -18,13 +18,17 @@
 | **`financeiro`** | ✅ Pronto | ✅ Pronto | ✅ Pronto | `CONCLUIDO` |
 | **`frequencia`** | ✅ Pronto | ✅ Pronto | ✅ Pronto | `CONCLUIDO` |
 | **`treinos`** | ✅ Pronto | ✅ Pronto | ✅ Pronto | `CONCLUIDO` |
+| **`colaboradores`** | ✅ Pronto | ✅ Pronto | ✅ Pronto | `ESPECIFICADO` |
+| **`dashboard`** | ✅ Pronto | ✅ Pronto | ✅ Pronto | `ESPECIFICADO` |
+| **`mobile`** | ✅ Pronto | ✅ Pronto | ✅ Pronto | `ESPECIFICADO` |
+| **`lgpd`** | ✅ Pronto | ✅ Pronto | ✅ Pronto | `ESPECIFICADO` |
 
 ---
 
 ## 2. Decisões Arquiteturais Registradas (ADRs)
 
-- **ADR-001 - Stack Base**: Spring Boot 4.1.1, Java 21, Flyway, PostgreSQL.
-- **ADR-002 - Frontend Framework**: Angular 21 com Standalone Components e Tailwind CSS.
+- **ADR-001 - Stack Base**: Spring Boot 3.4.3, Java 21, Flyway, PostgreSQL.
+- **ADR-002 - Frontend Framework**: Angular 22 com Standalone Components e Tailwind CSS.
 - **ADR-003 - Estratégia de Segurança**: Stateless JWT com autenticação Bearer e perfis (`ADMIN`, `RECEPCIONISTA`, `INSTRUTOR`, `ALUNO`).
 - **ADR-004 - Regra de Matrícula**: Apenas 1 matrícula ativa por aluno por período.
 - **ADR-005 - Mecanismo de Check-in**: Leitura de QR Code temporário gerado no aplicativo do aluno e validado pelo terminal de recepção.
@@ -34,6 +38,10 @@
 - **ADR-009 - Valor de Planos**: O campo `valor_mensalidade` em planos representa a mensalidade recorrente (planos trimestrais e anuais geram faturas mensais no valor da mensalidade).
 - **ADR-010 - Tolerância de Inadimplência no Check-in**: Bloqueio de acesso por QR Code liberado até 5 dias corridos de atraso após o vencimento; bloqueio automático para atrasos superiores a 5 dias.
 - **ADR-011 - Registro de Execução e Carga pelo Aluno**: Inclusão no MVP de registro da carga real (kg) e repetições executadas pelo aluno para acompanhamento de progressão de treinos.
+- **ADR-012 - Gestão de Colaboradores e CREF**: Criação de colaboradores associados a usuários de sistema, com exigência mandatória de registro no Conselho Regional de Educação Física (CREF) apenas para instrutores e trava que impede desativação do último administrador ativo.
+- **ADR-013 - Dashboards Segmentados por Perfil**: Endpoints e agregações SQL específicas para cada perfil operacional (Admin: receita/faturamento/ocupação; Recepção: bloqueios e vencimentos de hoje; Instrutor: fichas pendentes; Aluno: frequência semanal e treinos).
+- **ADR-014 - Bottom Navigation Bar Mobile**: Implementação de barra inferior fixa para visualizações mobile (< 768px) com atalhos contextuais baseados no perfil logado e hitboxes ergonômicas (thumb zone) >= 44px.
+- **ADR-015 - Conformidade LGPD e Retenção Fiscal**: Registro de consentimento formal versionado, exportação estruturada de dados (JSON) e anonimização irreversível ("direito ao esquecimento") preservando valores contábeis e fiscais por 5 anos (Art. 173 do CTN) desvinculados de dados pessoais identificáveis.
 
 ---
 
