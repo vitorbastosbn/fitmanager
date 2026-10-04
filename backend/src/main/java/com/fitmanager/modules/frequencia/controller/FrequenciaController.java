@@ -26,8 +26,13 @@ public class FrequenciaController {
     }
 
     @GetMapping("/qrcode-token")
-    @PreAuthorize("hasRole('ROLE_ALUNO')")
-    public ResponseEntity<QrTokenResponseDTO> gerarToken(Principal principal) {
+    @PreAuthorize("hasAnyRole('ROLE_ALUNO', 'ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    public ResponseEntity<QrTokenResponseDTO> gerarToken(
+            @RequestParam(required = false) Long alunoId,
+            Principal principal) {
+        if (alunoId != null) {
+            return ResponseEntity.ok(frequenciaService.gerarTokenCheckinPorAlunoId(alunoId));
+        }
         return ResponseEntity.ok(frequenciaService.gerarTokenCheckin(principal.getName()));
     }
 

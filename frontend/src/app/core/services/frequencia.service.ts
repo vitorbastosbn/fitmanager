@@ -8,7 +8,7 @@ import { CheckInItem, CheckInRequest, CheckInResponse, QrTokenResponse } from '.
 })
 export class FrequenciaService {
   private http = inject(HttpClient);
-  private baseUrl = '/api/v1/frequencia';
+  private readonly baseUrl = 'http://localhost:8080/api/v1/frequencia';
 
   checkInsHoje = signal<CheckInItem[]>([]);
   loading = signal<boolean>(false);

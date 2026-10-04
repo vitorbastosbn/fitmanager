@@ -61,6 +61,13 @@ public class FrequenciaService {
         return new QrTokenResponseDTO(token, QrTokenService.VALIDADE_SEGUNDOS, OffsetDateTime.now(ZoneOffset.UTC));
     }
 
+    public QrTokenResponseDTO gerarTokenCheckinPorAlunoId(Long alunoId) {
+        Aluno aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil de aluno não encontrado."));
+        String token = qrTokenService.gerarToken(aluno.getId());
+        return new QrTokenResponseDTO(token, QrTokenService.VALIDADE_SEGUNDOS, OffsetDateTime.now(ZoneOffset.UTC));
+    }
+
     @Transactional
     public CheckInResponseDTO validarERegistrarCheckIn(String token, String operadorEmail) {
         QrTokenService.QrTokenData tokenData;

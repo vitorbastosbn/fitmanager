@@ -22,3 +22,4 @@ backend/.mvn/wrapper/maven-wrapper.jar
 # Docker & Database
 data/
 *.log
+e2e-screenshots/

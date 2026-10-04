@@ -13,6 +13,7 @@ import { FichaVisualizacaoMobileComponent } from './features/treinos/ficha-visua
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'dashboard', redirectTo: 'alunos', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
 
   // Alunos

@@ -15,7 +15,7 @@ import {
 })
 export class TreinoService {
   private http = inject(HttpClient);
-  private baseUrl = '/api/v1';
+  private readonly baseUrl = 'http://localhost:8080/api/v1';
 
   exercicios = signal<Exercicio[]>([]);
   fichaAtiva = signal<FichaTreino | null>(null);

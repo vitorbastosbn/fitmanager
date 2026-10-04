@@ -109,7 +109,7 @@ export class LoginComponent {
         if (response.usuario.primeiroAcesso) {
           this.showFirstAccessModal.set(true);
         } else {
-          this.router.navigate(['/dashboard']);
+          this.redirecionarPorPerfil(response.usuario.perfil);
         }
       },
       error: (err) => {
@@ -121,6 +121,17 @@ export class LoginComponent {
 
   onPasswordChanged(): void {
     this.showFirstAccessModal.set(false);
-    this.router.navigate(['/dashboard']);
+    const user = this.authService.currentUser();
+    this.redirecionarPorPerfil(user?.perfil);
+  }
+
+  private redirecionarPorPerfil(perfil?: string): void {
+    if (perfil === 'ROLE_ALUNO') {
+      this.router.navigate(['/treinos/me']);
+    } else if (perfil === 'ROLE_INSTRUTOR') {
+      this.router.navigate(['/treinos/prescrever']);
+    } else {
+      this.router.navigate(['/alunos']);
+    }
   }
 }

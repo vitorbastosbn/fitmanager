@@ -8,7 +8,7 @@ import { Cobranca, PagarCobrancaRequest, PagamentoResponse } from '../models/fin
 })
 export class FinanceiroService {
   private http = inject(HttpClient);
-  private baseUrl = '/api/v1';
+  private readonly baseUrl = 'http://localhost:8080/api/v1';
 
   cobrancas = signal<Cobranca[]>([]);
   loading = signal<boolean>(false);

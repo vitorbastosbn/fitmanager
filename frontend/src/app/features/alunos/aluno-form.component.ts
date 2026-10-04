@@ -8,6 +8,7 @@ import { AlunoService } from '../../core/services/aluno.service';
   selector: 'app-aluno-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
+  styles: [':host { display: block; }'],
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl p-6 sm:p-8 shadow-2xl relative my-8">

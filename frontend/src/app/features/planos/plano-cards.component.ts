@@ -1,18 +1,26 @@
 import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Plano } from '../../core/models/plano.models';
+import { Plano, Matricula } from '../../core/models/plano.models';
 import { PlanoService } from '../../core/services/plano.service';
+import { MatriculaModalComponent } from './matricula-modal.component';
 
 @Component({
   selector: 'app-plano-cards',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatriculaModalComponent],
   template: `
     <div class="space-y-6">
       <div class="text-center max-w-xl mx-auto">
         <h2 class="text-2xl font-black text-white tracking-tight">Planos e Mensalidades</h2>
         <p class="text-sm text-slate-400 mt-1">Selecione o plano ideal para suas metas de treino e condicionamento</p>
       </div>
+
+      @if (sucessoMensagem()) {
+        <div class="max-w-xl mx-auto p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-sm font-semibold text-emerald-400 flex items-center justify-between">
+          <span>{{ sucessoMensagem() }}</span>
+          <button (click)="sucessoMensagem.set(null)" class="text-emerald-400 hover:text-white">&times;</button>
+        </div>
+      }
 
       @if (loading()) {
         <div class="p-12 text-center text-slate-400 flex flex-col items-center justify-center space-y-3">
@@ -69,7 +77,7 @@ import { PlanoService } from '../../core/services/plano.service';
 
               @if (modoSelecao) {
                 <button
-                  (click)="selecionarPlano.emit(plano)"
+                  (click)="iniciarMatricula(plano)"
                   class="w-full py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-2"
                   [ngClass]="plano.periodicidade === 'TRIMESTRAL' ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/20' : 'bg-slate-800 hover:bg-slate-700 text-white'"
                 >
@@ -79,6 +87,14 @@ import { PlanoService } from '../../core/services/plano.service';
             </div>
           }
         </div>
+      }
+
+      @if (planoParaMatricula()) {
+        <app-matricula-modal
+          [plano]="planoParaMatricula()!"
+          (concluido)="onMatriculado()"
+          (cancelar)="planoParaMatricula.set(null)"
+        />
       }
     </div>
   `
@@ -91,9 +107,23 @@ export class PlanoCardsComponent implements OnInit {
 
   readonly planos = signal<Plano[]>([]);
   readonly loading = signal(false);
+  readonly planoParaMatricula = signal<Plano | null>(null);
+  readonly sucessoMensagem = signal<string | null>(null);
 
   ngOnInit(): void {
     this.carregarPlanos();
+  }
+
+  iniciarMatricula(plano: Plano): void {
+    this.planoParaMatricula.set(plano);
+    this.selecionarPlano.emit(plano);
+  }
+
+  onMatriculado(): void {
+    const plano = this.planoParaMatricula();
+    this.planoParaMatricula.set(null);
+    this.sucessoMensagem.set(`Matrícula no ${plano?.nome || 'plano'} efetivada com sucesso!`);
+    setTimeout(() => this.sucessoMensagem.set(null), 5000);
   }
 
   carregarPlanos(): void {

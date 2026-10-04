@@ -8,6 +8,7 @@ import { Cobranca, FormaPagamento, PagamentoResponse } from '../../core/models/f
   selector: 'app-pagamento-modal',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  styles: [':host { display: block; }'],
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
       <div class="w-full max-w-md rounded-2xl bg-neutral-900 border border-neutral-800 p-6 shadow-2xl">
