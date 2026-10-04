@@ -37,7 +37,18 @@
 
 ---
 
-## 3. Próximos Passos
-1. Conclusão da escrita dos pacotes de especificação em `docs/specs/`.
-2. Aprovação formal das especificações pelo humano.
-3. Início do ciclo de execução (Setup de infraestrutura e migrações Flyway).
+## 3. Status de Homologação e Entrega
+- **Testes Unitários e Integração (Backend):** 17/17 testes aprovados (`mvnw test`).
+- **Build de Produção (Frontend):** 100% aprovado sem erros (`npm run build`).
+- **Validação E2E com Playwright:** 8/8 fluxos críticos validados com 100% de sucesso (`node frontend/e2e-playwright-test.mjs`).
+  1. Login de Administrador e Shell de Navegação
+  2. Cadastro Completo de Aluno (Validação de CPF por Módulo 11)
+  3. Contratação de Plano e Matrícula com Vigência
+  4. Gestão Financeira e Quitação Idempotente (PIX)
+  5. Terminal de Check-in com Token HMAC-SHA512 e feedback sonoro/visual
+  6. Catálogo de 37 Exercícios e Filtros por Grupo Muscular
+  7. Prescrição de Treino e Divisões
+  8. Logout e Limpeza de Sessão
+- **Repositório GitHub & Pull Request:**
+  - Repositório: [vitorbastosbn/fitmanager](https://github.com/vitorbastosbn/fitmanager)
+  - Pull Request #1: [feat: Implementação Completa do MVP FitManager](https://github.com/vitorbastosbn/fitmanager/pull/1) (branch `feat/mvp-implementation` para `main`).
