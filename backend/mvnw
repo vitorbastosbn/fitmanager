@@ -1,0 +1,15 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Maven Wrapper Shell Script
+# ----------------------------------------------------------------------------
+
+BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
+WRAPPER_JAR="$BASE_DIR/.mvn/wrapper/maven-wrapper.jar"
+
+if [ -z "$JAVA_HOME" ]; then
+    JAVA_EXE="java"
+else
+    JAVA_EXE="$JAVA_HOME/bin/java"
+fi
+
+exec "$JAVA_EXE" -Dmaven.multiModuleProjectDirectory="$BASE_DIR" -cp "$WRAPPER_JAR" org.apache.maven.wrapper.MavenWrapperMain "$@"
