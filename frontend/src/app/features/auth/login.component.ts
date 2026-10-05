@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -80,7 +80,7 @@ import { PrimeiroAcessoModalComponent } from './primeiro-acesso-modal.component'
     </div>
   `
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -93,6 +93,12 @@ export class LoginComponent {
     email: ['', [Validators.required, Validators.email]],
     senha: ['', [Validators.required]]
   });
+
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.redirecionarPorPerfil(this.authService.currentUser()?.perfil);
+    }
+  }
 
   onSubmit(): void {
     if (this.loginForm.invalid) return;
@@ -125,12 +131,6 @@ export class LoginComponent {
   }
 
   private redirecionarPorPerfil(perfil?: string): void {
-    if (perfil === 'ROLE_ALUNO') {
-      this.router.navigate(['/treinos/me']);
-    } else if (perfil === 'ROLE_INSTRUTOR') {
-      this.router.navigate(['/treinos/prescrever']);
-    } else {
-      this.router.navigate(['/alunos']);
-    }
+    this.router.navigate(['/dashboard']);
   }
 }

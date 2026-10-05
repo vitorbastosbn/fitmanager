@@ -24,14 +24,14 @@ public class AlunoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<AlunoResponseDTO> cadastrar(@Valid @RequestBody AlunoCreateDTO dto) {
         AlunoResponseDTO response = alunoService.cadastrarAluno(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA', 'ROLE_INSTRUTOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'INSTRUTOR')")
     public ResponseEntity<Page<AlunoResponseDTO>> listar(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) String status,
@@ -41,13 +41,13 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA', 'ROLE_INSTRUTOR', 'ROLE_ALUNO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'INSTRUTOR', 'ALUNO')")
     public ResponseEntity<AlunoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(alunoService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<AlunoResponseDTO> atualizar(
             @PathVariable Long id,
             @Valid @RequestBody AlunoUpdateDTO dto) {
@@ -55,7 +55,7 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<Void> inativar(@PathVariable Long id) {
         alunoService.inativarAluno(id);
         return ResponseEntity.noContent().build();

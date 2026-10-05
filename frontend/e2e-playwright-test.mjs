@@ -47,8 +47,8 @@ async function runE2E() {
     await page.fill('input[formControlName="senha"]', 'Admin@123');
     await page.click('button[type="submit"]');
 
-    await page.waitForURL('**/alunos', { timeout: 10000 });
-    await page.screenshot({ path: path.join(screenshotsDir, '02_dashboard_alunos.png') });
+    await page.waitForURL('**/dashboard', { timeout: 10000 });
+    await page.screenshot({ path: path.join(screenshotsDir, '02_dashboard_inicial.png') });
 
     const headerText = await page.textContent('header');
     if (headerText.includes('FITMANAGER') && headerText.includes('Administrador')) {
@@ -61,8 +61,7 @@ async function runE2E() {
     // TESTE 2: Dashboard Operacional Multi-Perfil (/dashboard)
     // -------------------------------------------------------------
     console.log('\n--- 2. Dashboard Operacional ---');
-    await page.click('a[routerLink="/dashboard"]');
-    await page.waitForURL('**/dashboard', { timeout: 5000 });
+    await page.waitForSelector('app-dashboard', { timeout: 5000 });
     await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(screenshotsDir, '03_dashboard_operacional.png') });
 
@@ -79,7 +78,14 @@ async function runE2E() {
     // TESTE 3: Gestão de Colaboradores (/colaboradores)
     // -------------------------------------------------------------
     console.log('\n--- 3. Gestão de Colaboradores ---');
-    await page.click('a[routerLink="/colaboradores"]');
+    const btnGestao = page.locator('header button:has-text("Gestão")');
+    if (await btnGestao.isVisible()) {
+      await btnGestao.click();
+      await page.waitForSelector('a[routerLink="/colaboradores"]', { timeout: 3000 });
+      await page.click('a[routerLink="/colaboradores"]');
+    } else {
+      await page.goto('http://localhost:4200/colaboradores', { waitUntil: 'networkidle' });
+    }
     await page.waitForURL('**/colaboradores', { timeout: 5000 });
     await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(screenshotsDir, '04_colaboradores_lista.png') });
@@ -123,7 +129,7 @@ async function runE2E() {
     // TESTE 4: Central de Privacidade & Portabilidade LGPD (/privacidade)
     // -------------------------------------------------------------
     console.log('\n--- 4. LGPD & Privacidade ---');
-    await page.click('a[routerLink="/privacidade"]');
+    await page.click('a[title="Central de Privacidade & Dados Cadastrais"]');
     await page.waitForURL('**/privacidade', { timeout: 5000 });
     await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(screenshotsDir, '07_central_privacidade_lgpd.png') });
@@ -155,7 +161,14 @@ async function runE2E() {
     // TESTE 5: Trilha de Auditoria LGPD (/admin/lgpd-auditoria)
     // -------------------------------------------------------------
     console.log('\n--- 5. Auditoria LGPD ---');
-    await page.click('a[routerLink="/admin/lgpd-auditoria"]');
+    const btnLgpd = page.locator('header button:has-text("LGPD")');
+    if (await btnLgpd.isVisible()) {
+      await btnLgpd.click();
+      await page.waitForSelector('a[routerLink="/admin/lgpd-auditoria"]', { timeout: 3000 });
+      await page.click('a[routerLink="/admin/lgpd-auditoria"]');
+    } else {
+      await page.goto('http://localhost:4200/admin/lgpd-auditoria', { waitUntil: 'networkidle' });
+    }
     await page.waitForURL('**/admin/lgpd-auditoria', { timeout: 5000 });
     await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(screenshotsDir, '09_auditoria_lgpd.png') });
@@ -171,7 +184,14 @@ async function runE2E() {
     // TESTE 6: Gestão de Alunos com Mascaramento de CPF
     // -------------------------------------------------------------
     console.log('\n--- 6. Gestão de Alunos & Máscara de CPF ---');
-    await page.click('a[routerLink="/alunos"]');
+    const btnGestao2 = page.locator('header button:has-text("Gestão")');
+    if (await btnGestao2.isVisible()) {
+      await btnGestao2.click();
+      await page.waitForSelector('a[routerLink="/alunos"]', { timeout: 3000 });
+      await page.click('a[routerLink="/alunos"]');
+    } else {
+      await page.goto('http://localhost:4200/alunos', { waitUntil: 'networkidle' });
+    }
     await page.waitForURL('**/alunos', { timeout: 5000 });
     await page.waitForTimeout(1000);
 
@@ -216,7 +236,14 @@ async function runE2E() {
     // TESTE 7: Planos, Matrícula & Financeiro Idempotente
     // -------------------------------------------------------------
     console.log('\n--- 7. Matrícula & Financeiro ---');
-    await page.click('a[routerLink="/planos"]');
+    const btnGestao3 = page.locator('header button:has-text("Gestão")');
+    if (await btnGestao3.isVisible()) {
+      await btnGestao3.click();
+      await page.waitForSelector('a[routerLink="/planos"]', { timeout: 3000 });
+      await page.click('a[routerLink="/planos"]');
+    } else {
+      await page.goto('http://localhost:4200/planos', { waitUntil: 'networkidle' });
+    }
     await page.waitForURL('**/planos', { timeout: 5000 });
     await page.waitForSelector('app-plano-cards', { timeout: 5000 });
 

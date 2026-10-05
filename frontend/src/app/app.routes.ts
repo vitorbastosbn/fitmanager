@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import { authGuard, guestGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './features/auth/login.component';
 import { AlunoListComponent } from './features/alunos/aluno-list.component';
 import { AlunoFormComponent } from './features/alunos/aluno-form.component';
@@ -16,9 +16,9 @@ import { PrivacidadePainelComponent } from './features/lgpd/privacidade-painel.c
 import { AuditoriaLgpdComponent } from './features/lgpd/auditoria-lgpd.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
 
   // Colaboradores (Gestão de Equipe)
   { path: 'colaboradores', component: ColaboradorListComponent, canActivate: [authGuard] },

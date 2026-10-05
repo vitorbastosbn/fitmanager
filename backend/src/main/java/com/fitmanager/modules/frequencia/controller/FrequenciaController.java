@@ -26,7 +26,7 @@ public class FrequenciaController {
     }
 
     @GetMapping("/qrcode-token")
-    @PreAuthorize("hasAnyRole('ROLE_ALUNO', 'ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ALUNO', 'ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<QrTokenResponseDTO> gerarToken(
             @RequestParam(required = false) Long alunoId,
             Principal principal) {
@@ -37,7 +37,7 @@ public class FrequenciaController {
     }
 
     @PostMapping("/check-in")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<CheckInResponseDTO> registrarCheckIn(
             @Valid @RequestBody CheckInRequestDTO dto,
             Principal principal) {
@@ -54,7 +54,7 @@ public class FrequenciaController {
     }
 
     @GetMapping("/hoje")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<List<CheckInItemDTO>> listarHoje() {
         return ResponseEntity.ok(frequenciaService.listarCheckInsHoje());
     }

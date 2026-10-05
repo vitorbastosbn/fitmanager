@@ -18,7 +18,7 @@ public interface FichaTreinoRepository extends JpaRepository<FichaTreino, Long> 
            "LEFT JOIN FETCH d.itens i " +
            "LEFT JOIN FETCH i.exercicio " +
            "WHERE f.aluno.id = :alunoId AND f.status = :status")
-    Optional<FichaTreino> findFirstByAlunoIdAndStatusWithDetails(@Param("alunoId") Long alunoId, @Param("status") StatusFicha status);
+    List<FichaTreino> findByAlunoIdAndStatusWithDetails(@Param("alunoId") Long alunoId, @Param("status") StatusFicha status);
 
     List<FichaTreino> findByAlunoIdAndStatus(Long alunoId, StatusFicha status);
 

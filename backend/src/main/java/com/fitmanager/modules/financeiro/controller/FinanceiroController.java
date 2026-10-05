@@ -38,7 +38,7 @@ public class FinanceiroController {
     }
 
     @GetMapping("/cobrancas")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<List<CobrancaDTO>> listarCobrancas(
             @RequestParam(required = false) Long matriculaId,
             @RequestParam(required = false) Long alunoId) {
@@ -54,7 +54,7 @@ public class FinanceiroController {
     }
 
     @PostMapping("/cobrancas/{id}/pagar")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<PagamentoResponseDTO> quitarCobranca(
             @PathVariable Long id,
             @Valid @RequestBody PagarCobrancaDTO dto,
@@ -63,7 +63,7 @@ public class FinanceiroController {
     }
 
     @GetMapping("/alunos/me/cobrancas")
-    @PreAuthorize("hasRole('ROLE_ALUNO')")
+    @PreAuthorize("hasRole('ALUNO')")
     public ResponseEntity<List<CobrancaDTO>> extratoAluno(Principal principal) {
         Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElseThrow();
         Aluno aluno = alunoService.buscarPorUsuarioId(usuario.getId());

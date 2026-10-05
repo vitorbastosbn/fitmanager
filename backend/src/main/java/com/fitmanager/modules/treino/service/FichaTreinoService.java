@@ -95,8 +95,10 @@ public class FichaTreinoService {
 
     @Transactional(readOnly = true)
     public FichaTreinoDTO buscarFichaAtiva(Long alunoId) {
-        FichaTreino ficha = fichaTreinoRepository.findFirstByAlunoIdAndStatusWithDetails(alunoId, StatusFicha.ATIVA)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma ficha de treino ativa encontrada para este aluno."));
-        return FichaTreinoDTO.fromEntity(ficha);
+        List<FichaTreino> fichas = fichaTreinoRepository.findByAlunoIdAndStatusWithDetails(alunoId, StatusFicha.ATIVA);
+        if (fichas.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma ficha de treino ativa encontrada para este aluno.");
+        }
+        return FichaTreinoDTO.fromEntity(fichas.get(0));
     }
 }

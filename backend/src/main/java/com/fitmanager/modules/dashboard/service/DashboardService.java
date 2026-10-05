@@ -198,8 +198,8 @@ public class DashboardService {
 
         // Identificar ficha e próxima divisão
         String divisaoSugerida = "A";
-        Optional<FichaTreino> fichaOpt = fichaTreinoRepository.findFirstByAlunoIdAndStatusWithDetails(aluno.getId(), StatusFicha.ATIVA);
-        if (fichaOpt.isPresent()) {
+        List<FichaTreino> fichas = fichaTreinoRepository.findByAlunoIdAndStatusWithDetails(aluno.getId(), StatusFicha.ATIVA);
+        if (!fichas.isEmpty()) {
             divisaoSugerida = "Treino A / B";
         }
 

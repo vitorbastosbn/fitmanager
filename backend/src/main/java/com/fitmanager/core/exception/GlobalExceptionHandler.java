@@ -71,9 +71,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
     }
 
+    @ExceptionHandler(org.springframework.web.server.ResponseStatusException.class)
+    public ProblemDetail handleResponseStatusException(org.springframework.web.server.ResponseStatusException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(ex.getStatusCode(), ex.getReason() != null ? ex.getReason() : ex.getMessage());
+        problem.setType(URI.create("https://api.fitmanager.com/erros/status-erro"));
+        problem.setTitle(ex.getStatusCode().toString());
+        return problem;
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception ex) {
-        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Ocorreu um erro interno no servidor.");
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage() != null ? ex.getMessage() : "Ocorreu um erro interno no servidor.");
         problem.setType(URI.create("https://api.fitmanager.com/erros/erro-interno"));
         problem.setTitle("Erro interno");
         problem.setProperty("exception", ex.getClass().getSimpleName());

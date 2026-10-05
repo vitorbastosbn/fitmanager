@@ -26,13 +26,13 @@ public class PlanoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PlanoDTO> criar(@Valid @RequestBody PlanoDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(planoService.criar(dto));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PlanoDTO> atualizar(@PathVariable Long id, @Valid @RequestBody PlanoDTO dto) {
         return ResponseEntity.ok(planoService.atualizar(id, dto));
     }

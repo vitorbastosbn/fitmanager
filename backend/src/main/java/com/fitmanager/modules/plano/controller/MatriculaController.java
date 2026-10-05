@@ -23,19 +23,19 @@ public class MatriculaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<MatriculaResponseDTO> matricular(@Valid @RequestBody MatriculaCreateDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(matriculaService.matricular(dto));
     }
 
     @GetMapping("/aluno/{alunoId}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA', 'ROLE_INSTRUTOR', 'ROLE_ALUNO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'INSTRUTOR', 'ALUNO')")
     public ResponseEntity<List<MatriculaResponseDTO>> listarPorAluno(@PathVariable Long alunoId) {
         return ResponseEntity.ok(matriculaService.listarPorAluno(alunoId));
     }
 
     @PostMapping("/{id}/cancelar")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<MatriculaResponseDTO> cancelar(
             @PathVariable Long id,
             @Valid @RequestBody CancelarMatriculaDTO dto) {

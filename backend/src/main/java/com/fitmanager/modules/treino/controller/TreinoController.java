@@ -48,20 +48,20 @@ public class TreinoController {
     }
 
     @PostMapping("/fichas-treino")
-    @PreAuthorize("hasAnyRole('ROLE_INSTRUTOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('INSTRUTOR', 'ADMIN')")
     public ResponseEntity<FichaTreinoDTO> prescreverFicha(@Valid @RequestBody CriarFichaTreinoDTO dto, Principal principal) {
         FichaTreinoDTO ficha = fichaTreinoService.prescreverFicha(dto, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(ficha);
     }
 
     @GetMapping("/alunos/{alunoId}/ficha-ativa")
-    @PreAuthorize("hasAnyRole('ROLE_INSTRUTOR', 'ROLE_ADMIN', 'ROLE_RECEPCIONISTA', 'ROLE_ALUNO')")
+    @PreAuthorize("hasAnyRole('INSTRUTOR', 'ADMIN', 'RECEPCIONISTA', 'ALUNO')")
     public ResponseEntity<FichaTreinoDTO> buscarFichaAtiva(@PathVariable Long alunoId) {
         return ResponseEntity.ok(fichaTreinoService.buscarFichaAtiva(alunoId));
     }
 
     @GetMapping("/alunos/me/ficha-ativa")
-    @PreAuthorize("hasRole('ROLE_ALUNO')")
+    @PreAuthorize("hasRole('ALUNO')")
     public ResponseEntity<FichaTreinoDTO> buscarMinhaFichaAtiva(Principal principal) {
         Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElseThrow();
         Aluno aluno = alunoService.buscarPorUsuarioId(usuario.getId());
@@ -69,7 +69,7 @@ public class TreinoController {
     }
 
     @PostMapping("/treinos/execucoes")
-    @PreAuthorize("hasRole('ROLE_ALUNO')")
+    @PreAuthorize("hasRole('ALUNO')")
     public ResponseEntity<RegistroExecucaoResponseDTO> registrarExecucao(
             @Valid @RequestBody RegistrarExecucaoDTO dto,
             Principal principal) {
