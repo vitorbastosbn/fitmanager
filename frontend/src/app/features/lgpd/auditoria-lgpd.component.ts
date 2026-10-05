@@ -8,87 +8,124 @@ import { LogAuditoriaLgpd } from '../../core/models/lgpd.models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="space-y-6 max-w-6xl mx-auto animate-fade-in">
+    <div class="space-y-6 max-w-6xl mx-auto animate-fade-in p-4 sm:p-6">
       <!-- Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-800 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
           <div class="flex items-center gap-2">
-            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200">
               Trilha de Auditoria Regulamentar
             </span>
-            <span class="text-xs text-neutral-400">Compliance & Governança LGPD</span>
+            <span class="text-xs text-slate-500">Compliance & Governança LGPD</span>
           </div>
-          <h1 class="text-3xl font-extrabold text-white tracking-tight mt-1">
+          <h1 class="text-xl font-bold text-slate-900 tracking-tight mt-1">
             Logs de Auditoria LGPD
           </h1>
-          <p class="text-sm text-neutral-400 mt-1">
+          <p class="text-xs text-slate-500 mt-1">
             Registro imutável de eventos de consentimento, exportações de dados e solicitações de anonimização.
           </p>
         </div>
 
         <button
           (click)="carregarLogs(currentPage())"
-          class="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold rounded-xl border border-neutral-700 transition-colors flex items-center gap-2 self-start sm:self-auto"
+          class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium rounded-md border border-slate-200 transition-colors flex items-center gap-1.5 shadow-2xs self-start sm:self-auto min-h-[36px]"
         >
-          <span>🔄</span>
+          <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
           <span>Atualizar Trilha</span>
         </button>
       </div>
 
-      <!-- Tabela de Logs -->
-      <div class="bg-neutral-900/60 border border-neutral-800 rounded-3xl overflow-hidden shadow-xl">
+      <!-- Mobile Card List View (< md) -->
+      <div class="space-y-3 md:hidden">
+        @if (carregando()) {
+          <div class="p-8 text-center text-slate-400 text-xs">
+            Carregando trilha de auditoria...
+          </div>
+        } @else if (logs().length === 0) {
+          <div class="p-8 rounded-xl bg-white border border-slate-200 text-center text-slate-400 text-xs shadow-xs">
+            Nenhum registro de auditoria encontrado.
+          </div>
+        } @else {
+          @for (log of logs(); track log.id) {
+            <div class="rounded-xl bg-white border border-slate-200 p-4 shadow-xs space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wide" [ngClass]="getBadgeClass(log.acao)">
+                  {{ log.acao }}
+                </span>
+                <span class="text-slate-400 font-mono text-[11px]">{{ formatarData(log.criadoEm) }}</span>
+              </div>
+
+              <div>
+                <div class="text-xs font-bold text-slate-900">{{ log.titularNome }}</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Operador: {{ log.operadorNome }} &bull; IP: {{ log.ipOrigem || '—' }}</div>
+              </div>
+
+              @if (log.detalhes) {
+                <div class="pt-2 border-t border-slate-100 text-[11px] text-slate-600 bg-slate-50 p-2 rounded-md">
+                  {{ log.detalhes }}
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+
+      <!-- Desktop Table View (>= md) -->
+      <div class="hidden md:block bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs">
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-neutral-300">
-            <thead class="bg-neutral-950/80 text-neutral-400 border-b border-neutral-800 uppercase font-semibold text-[11px] tracking-wider">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase font-bold text-[11px] tracking-wider">
               <tr>
-                <th class="py-4 px-6">Data / Hora</th>
-                <th class="py-4 px-6">Ação Realizada</th>
-                <th class="py-4 px-6">Titular dos Dados</th>
-                <th class="py-4 px-6">Operador Responsável</th>
-                <th class="py-4 px-6">IP Origem</th>
-                <th class="py-4 px-6">Detalhes</th>
+                <th class="py-3 px-5">Data / Hora</th>
+                <th class="py-3 px-5">Ação Realizada</th>
+                <th class="py-3 px-5">Titular dos Dados</th>
+                <th class="py-3 px-5">Operador Responsável</th>
+                <th class="py-3 px-5">IP Origem</th>
+                <th class="py-3 px-5">Detalhes</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-neutral-800/60">
+            <tbody class="divide-y divide-slate-100">
               @if (carregando()) {
                 <tr>
-                  <td colspan="6" class="py-12 text-center text-neutral-500">
+                  <td colspan="6" class="py-12 text-center text-slate-400">
                     <div class="flex items-center justify-center gap-2">
-                      <span class="animate-spin text-lg">⏳</span>
+                      <div class="w-4 h-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
                       <span>Carregando trilha de auditoria...</span>
                     </div>
                   </td>
                 </tr>
               } @else if (logs().length === 0) {
                 <tr>
-                  <td colspan="6" class="py-12 text-center text-neutral-500">
+                  <td colspan="6" class="py-12 text-center text-slate-400">
                     Nenhum registro de auditoria encontrado.
                   </td>
                 </tr>
               } @else {
                 @for (log of logs(); track log.id) {
-                  <tr class="hover:bg-neutral-800/40 transition-colors">
-                    <td class="py-4 px-6 text-neutral-400 font-mono">
+                  <tr class="hover:bg-slate-50/70 transition-colors">
+                    <td class="py-3 px-5 text-slate-500 font-mono text-[11px]">
                       {{ formatarData(log.criadoEm) }}
                     </td>
-                    <td class="py-4 px-6">
+                    <td class="py-3 px-5">
                       <span
-                        class="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide"
+                        class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wide"
                         [ngClass]="getBadgeClass(log.acao)"
                       >
                         {{ log.acao }}
                       </span>
                     </td>
-                    <td class="py-4 px-6 font-semibold text-white">
+                    <td class="py-3 px-5 font-semibold text-slate-900">
                       {{ log.titularNome }}
                     </td>
-                    <td class="py-4 px-6 text-neutral-300">
+                    <td class="py-3 px-5 text-slate-700">
                       {{ log.operadorNome }}
                     </td>
-                    <td class="py-4 px-6 text-neutral-400 font-mono text-[11px]">
+                    <td class="py-3 px-5 text-slate-400 font-mono text-[11px]">
                       {{ log.ipOrigem || '—' }}
                     </td>
-                    <td class="py-4 px-6 text-neutral-400 max-w-xs truncate" [title]="log.detalhes">
+                    <td class="py-3 px-5 text-slate-500 max-w-xs truncate" [title]="log.detalhes">
                       {{ log.detalhes }}
                     </td>
                   </tr>
@@ -100,7 +137,7 @@ import { LogAuditoriaLgpd } from '../../core/models/lgpd.models';
 
         <!-- Paginação -->
         @if (totalPages() > 1) {
-          <div class="flex items-center justify-between px-6 py-4 border-t border-neutral-800 bg-neutral-950/40 text-xs text-neutral-400">
+          <div class="flex items-center justify-between px-5 py-3 border-t border-slate-200 bg-slate-50 text-xs text-slate-500">
             <span>
               Página {{ currentPage() + 1 }} de {{ totalPages() }} ({{ totalElements() }} registros totais)
             </span>
@@ -108,14 +145,14 @@ import { LogAuditoriaLgpd } from '../../core/models/lgpd.models';
               <button
                 (click)="mudarPagina(currentPage() - 1)"
                 [disabled]="currentPage() === 0"
-                class="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed text-white font-medium"
+                class="px-3 py-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 font-medium shadow-2xs"
               >
                 Anterior
               </button>
               <button
                 (click)="mudarPagina(currentPage() + 1)"
                 [disabled]="currentPage() >= totalPages() - 1"
-                class="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed text-white font-medium"
+                class="px-3 py-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 font-medium shadow-2xs"
               >
                 Próxima
               </button>
@@ -181,13 +218,13 @@ export class AuditoriaLgpdComponent implements OnInit {
   getBadgeClass(acao: string): string {
     switch (acao) {
       case 'ACEITE_TERMO':
-        return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
       case 'EXPORTACAO_DADOS':
-        return 'bg-sky-500/20 text-sky-400 border border-sky-500/30';
+        return 'bg-blue-50 text-blue-700 border border-blue-200';
       case 'ANONIMIZACAO':
-        return 'bg-rose-500/20 text-rose-400 border border-rose-500/30';
+        return 'bg-rose-50 text-rose-700 border border-rose-200';
       default:
-        return 'bg-neutral-800 text-neutral-300 border border-neutral-700';
+        return 'bg-slate-100 text-slate-700 border border-slate-200';
     }
   }
 }

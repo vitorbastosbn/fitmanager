@@ -14,14 +14,14 @@ import { MascararCpfPipe } from '../../shared/pipes/mascarar-cpf.pipe';
   template: `
     <div class="space-y-6">
       <!-- Cabeçalho da Página -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-xl shadow-xs">
         <div>
-          <h1 class="text-2xl font-black text-white tracking-tight">Gestão de Alunos</h1>
-          <p class="text-sm text-slate-400">Cadastre e gerencie a base de membros da academia</p>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Gestão de Alunos</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Base cadastral, status de matrículas e fichas de membros</p>
         </div>
         <button
           (click)="abrirModalNovo()"
-          class="inline-flex items-center space-x-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-sm transition-all shadow-lg shadow-emerald-500/20"
+          class="inline-flex items-center space-x-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-lg text-xs transition-colors shadow-xs"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -31,22 +31,22 @@ import { MascararCpfPipe } from '../../shared/pipes/mascarar-cpf.pipe';
       </div>
 
       <!-- Barra de Filtros e Busca -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row gap-3">
+      <div class="bg-white border border-slate-200 rounded-lg p-3 flex flex-col sm:flex-row gap-3 shadow-xs">
         <div class="flex-1 relative">
-          <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
             type="text"
             [formControl]="buscaControl"
-            placeholder="Buscar por nome ou CPF..."
-            class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+            placeholder="Filtrar por nome ou CPF..."
+            class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-md text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
           />
         </div>
 
         <select
           [formControl]="statusControl"
-          class="px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-emerald-500"
+          class="px-3 py-2 bg-white border border-slate-200 rounded-md text-xs font-medium text-slate-700 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
         >
           <option value="">Todos os Status</option>
           <option value="ATIVO">Ativo</option>
@@ -55,25 +55,74 @@ import { MascararCpfPipe } from '../../shared/pipes/mascarar-cpf.pipe';
         </select>
       </div>
 
-      <!-- Tabela de Alunos -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+      <!-- Conteúdo: Cards Mobile + Tabela Desktop -->
+      <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs">
         @if (loading()) {
-          <div class="p-12 text-center text-slate-400 flex flex-col items-center justify-center space-y-3">
-            <div class="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm">Carregando alunos...</p>
+          <div class="p-12 text-center text-slate-500 flex flex-col items-center justify-center space-y-3">
+            <svg class="animate-spin h-7 w-7 text-slate-700" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-xs">Carregando quadro de alunos...</p>
           </div>
         } @else if (alunos().length === 0) {
           <div class="p-12 text-center text-slate-500">
-            <svg class="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            <p class="text-base font-semibold text-slate-400">Nenhum aluno encontrado</p>
-            <p class="text-xs text-slate-500 mt-1">Cadastre um novo aluno ou altere os filtros de pesquisa</p>
+            <p class="text-sm font-semibold text-slate-700">Nenhum aluno encontrado</p>
+            <p class="text-xs text-slate-400 mt-1">Cadastre um novo aluno ou redefina os filtros de pesquisa</p>
           </div>
         } @else {
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-300">
-              <thead class="bg-slate-950/60 border-b border-slate-800 text-xs text-slate-400 uppercase tracking-wider font-semibold">
+          <!-- Visão Mobile: Lista de Cards Adaptativos (md:hidden) -->
+          <div class="md:hidden divide-y divide-slate-100">
+            @for (aluno of alunos(); track aluno.id) {
+              <div class="p-4 space-y-3">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <div class="font-semibold text-slate-900 text-sm">{{ aluno.nome }}</div>
+                    <div class="text-xs text-slate-500 mt-0.5">{{ aluno.email }} &bull; {{ aluno.telefone }}</div>
+                  </div>
+                  <div>
+                    <span
+                      class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold"
+                      [ngClass]="{
+                        'bg-emerald-50 text-emerald-700 border border-emerald-200': aluno.status === 'ATIVO',
+                        'bg-rose-50 text-rose-700 border border-rose-200': aluno.status === 'INATIVO',
+                        'bg-amber-50 text-amber-700 border border-amber-200': aluno.status === 'TRANCADO'
+                      }"
+                    >
+                      {{ aluno.status }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between text-xs bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                  <span class="text-slate-400 text-[10px] uppercase font-bold">CPF</span>
+                  <span class="font-mono text-slate-700 font-medium">{{ aluno.cpf | mascararCpf }}</span>
+                </div>
+
+                <div class="flex items-center justify-end space-x-2 pt-1">
+                  <button
+                    (click)="editarAluno(aluno)"
+                    class="px-3 py-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors shadow-2xs"
+                  >
+                    Editar Dados
+                  </button>
+                  @if (aluno.status === 'ATIVO') {
+                    <button
+                      (click)="inativarAluno(aluno.id)"
+                      class="px-3 py-1.5 rounded-md border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-medium transition-colors"
+                    >
+                      Inativar
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Visão Desktop: Tabela Tradicional (hidden md:block) -->
+          <div class="hidden md:block overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-700">
+              <thead class="bg-slate-50 border-b border-slate-200 text-[11px] text-slate-500 uppercase tracking-wider font-semibold">
                 <tr>
                   <th class="py-3.5 px-6">Nome / Contato</th>
                   <th class="py-3.5 px-6">CPF</th>
@@ -81,23 +130,27 @@ import { MascararCpfPipe } from '../../shared/pipes/mascarar-cpf.pipe';
                   <th class="py-3.5 px-6 text-right">Ações</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-800/60">
+              <tbody class="divide-y divide-slate-100">
                 @for (aluno of alunos(); track aluno.id) {
-                  <tr class="hover:bg-slate-800/30 transition-colors">
+                  <tr class="hover:bg-slate-50/50 transition-colors">
                     <td class="py-4 px-6">
-                      <div class="font-bold text-white">{{ aluno.nome }}</div>
-                      <div class="text-xs text-slate-400">{{ aluno.email }} • {{ aluno.telefone }}</div>
+                      <div class="font-semibold text-slate-900">{{ aluno.nome }}</div>
+                      <div class="text-xs text-slate-500 flex items-center space-x-2 mt-0.5">
+                        <span>{{ aluno.email }}</span>
+                        <span>&bull;</span>
+                        <span>{{ aluno.telefone }}</span>
+                      </div>
                     </td>
-                    <td class="py-4 px-6 font-mono text-xs text-slate-300">
+                    <td class="py-4 px-6 font-mono text-xs text-slate-700">
                       {{ aluno.cpf | mascararCpf }}
                     </td>
                     <td class="py-4 px-6">
                       <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                         [ngClass]="{
-                          'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20': aluno.status === 'ATIVO',
-                          'bg-rose-500/10 text-rose-400 border border-rose-500/20': aluno.status === 'INATIVO',
-                          'bg-amber-500/10 text-amber-400 border border-amber-500/20': aluno.status === 'TRANCADO'
+                          'bg-emerald-50 text-emerald-700 border border-emerald-200': aluno.status === 'ATIVO',
+                          'bg-rose-50 text-rose-700 border border-rose-200': aluno.status === 'INATIVO',
+                          'bg-amber-50 text-amber-700 border border-amber-200': aluno.status === 'TRANCADO'
                         }"
                       >
                         {{ aluno.status }}
@@ -106,22 +159,18 @@ import { MascararCpfPipe } from '../../shared/pipes/mascarar-cpf.pipe';
                     <td class="py-4 px-6 text-right space-x-2">
                       <button
                         (click)="editarAluno(aluno)"
-                        class="p-1.5 text-slate-400 hover:text-emerald-400 hover:bg-slate-800 rounded-lg transition-colors"
+                        class="px-2.5 py-1 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors shadow-2xs"
                         title="Editar"
                       >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
+                        Editar
                       </button>
                       @if (aluno.status === 'ATIVO') {
                         <button
                           (click)="inativarAluno(aluno.id)"
-                          class="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-colors"
+                          class="px-2.5 py-1 rounded-md border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-medium transition-colors"
                           title="Inativar"
                         >
-                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                          </svg>
+                          Inativar
                         </button>
                       }
                     </td>

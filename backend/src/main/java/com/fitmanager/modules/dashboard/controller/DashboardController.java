@@ -5,10 +5,9 @@ import com.fitmanager.modules.dashboard.dto.DashboardAlunoDTO;
 import com.fitmanager.modules.dashboard.dto.DashboardInstrutorDTO;
 import com.fitmanager.modules.dashboard.dto.DashboardRecepcaoDTO;
 import com.fitmanager.modules.dashboard.service.DashboardService;
+import java.security.Principal;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,15 +36,15 @@ public class DashboardController {
 
     @GetMapping("/instrutor")
     @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUTOR')")
-    public ResponseEntity<DashboardInstrutorDTO> obterDashboardInstrutor(@AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails != null ? userDetails.getUsername() : "";
+    public ResponseEntity<DashboardInstrutorDTO> obterDashboardInstrutor(Principal principal) {
+        String email = principal != null ? principal.getName() : "";
         return ResponseEntity.ok(dashboardService.obterDashboardInstrutor(email));
     }
 
     @GetMapping("/aluno")
     @PreAuthorize("hasRole('ALUNO')")
-    public ResponseEntity<DashboardAlunoDTO> obterDashboardAluno(@AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails != null ? userDetails.getUsername() : "";
+    public ResponseEntity<DashboardAlunoDTO> obterDashboardAluno(Principal principal) {
+        String email = principal != null ? principal.getName() : "";
         return ResponseEntity.ok(dashboardService.obterDashboardAluno(email));
     }
 }

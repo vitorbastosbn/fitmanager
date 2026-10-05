@@ -11,110 +11,117 @@ import { CriarFichaTreinoRequest, Exercicio } from '../../core/models/treino.mod
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   template: `
-    <div class="max-w-4xl mx-auto p-4 space-y-8">
-      <div class="flex items-center justify-between">
-        <div>
-          <span class="text-xs uppercase font-bold tracking-widest text-amber-500">Prescrição Esportiva</span>
-          <h2 class="text-2xl font-black text-white tracking-tight">Nova Ficha de Treino</h2>
-          <p class="text-xs text-neutral-400 mt-1">Configure o treino do aluno organizado por divisões (A, B, C...)</p>
-        </div>
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-[11px] uppercase font-bold tracking-wider text-slate-500 block">Prescrição Esportiva</span>
+        <h2 class="text-xl font-bold text-slate-900 tracking-tight mt-0.5">Nova Ficha de Treino</h2>
+        <p class="text-xs text-slate-500 mt-1">Configure o treino do aluno organizado por divisões (A, B, C...)</p>
       </div>
 
       @if (sucessoMsg()) {
-        <div class="rounded-2xl bg-emerald-950/70 border border-emerald-800 p-4 text-sm text-emerald-300">
-          {{ sucessoMsg() }}
+        <div class="rounded-lg bg-emerald-50 border border-emerald-200 p-3.5 text-xs text-emerald-800 flex items-center gap-2 shadow-2xs">
+          <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="font-medium">{{ sucessoMsg() }}</span>
         </div>
       }
 
       @if (erroMsg()) {
-        <div class="rounded-2xl bg-red-950/70 border border-red-800 p-4 text-sm text-red-300">
-          {{ erroMsg() }}
+        <div class="rounded-lg bg-rose-50 border border-rose-200 p-3.5 text-xs text-rose-800 flex items-center gap-2 shadow-2xs">
+          <svg class="w-4 h-4 text-rose-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="font-medium">{{ erroMsg() }}</span>
         </div>
       }
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
         <!-- Student & General Info -->
-        <div class="rounded-3xl bg-neutral-900 border border-neutral-800 p-6 space-y-4">
-          <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300 border-b border-neutral-800 pb-2">
+        <div class="rounded-xl bg-white border border-slate-200 p-5 space-y-4 shadow-xs">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 border-b border-slate-200 pb-2">
             1. Dados Gerais da Prescrição
           </h3>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-neutral-400 mb-1">ID do Aluno *</label>
+              <label class="block text-xs font-medium text-slate-700 mb-1">ID do Aluno *</label>
               <input
                 type="number"
                 formControlName="alunoId"
                 placeholder="Ex: 1"
-                class="w-full rounded-xl bg-neutral-950 border border-neutral-800 px-4 py-2.5 text-white text-sm focus:border-amber-500 focus:outline-none"
+                class="w-full rounded-md bg-white border border-slate-300 px-3 py-2 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
               />
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-neutral-400 mb-1">Objetivo do Treino *</label>
+              <label class="block text-xs font-medium text-slate-700 mb-1">Objetivo do Treino *</label>
               <input
                 type="text"
                 formControlName="objetivo"
                 placeholder="Ex: Hipertrofia Muscular / Perda de Gordura"
-                class="w-full rounded-xl bg-neutral-950 border border-neutral-800 px-4 py-2.5 text-white text-sm focus:border-amber-500 focus:outline-none"
+                class="w-full rounded-md bg-white border border-slate-300 px-3 py-2 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
               />
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-neutral-400 mb-1">Data de Início *</label>
+              <label class="block text-xs font-medium text-slate-700 mb-1">Data de Início *</label>
               <input
                 type="date"
                 formControlName="dataInicio"
-                class="w-full rounded-xl bg-neutral-950 border border-neutral-800 px-4 py-2.5 text-white text-sm focus:border-amber-500 focus:outline-none"
+                class="w-full rounded-md bg-white border border-slate-300 px-3 py-2 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
               />
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-neutral-400 mb-1">Data de Validade (Estimada)</label>
+              <label class="block text-xs font-medium text-slate-700 mb-1">Data de Validade (Estimada)</label>
               <input
                 type="date"
                 formControlName="dataValidade"
-                class="w-full rounded-xl bg-neutral-950 border border-neutral-800 px-4 py-2.5 text-white text-sm focus:border-amber-500 focus:outline-none"
+                class="w-full rounded-md bg-white border border-slate-300 px-3 py-2 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
               />
             </div>
           </div>
         </div>
 
         <!-- Divisions (Divisoes de Treino) -->
-        <div class="space-y-6">
+        <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">
               2. Divisões e Exercícios
             </h3>
             <button
               type="button"
               (click)="adicionarDivisao()"
-              class="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-amber-400 text-xs font-bold transition-colors flex items-center gap-1.5"
+              class="px-3 py-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-xs font-medium transition-colors flex items-center gap-1.5 shadow-2xs min-h-[36px]"
             >
-              + Adicionar Divisão (A, B, C...)
+              <svg class="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Adicionar Divisão
             </button>
           </div>
 
-          <div formArrayName="divisoes" class="space-y-6">
+          <div formArrayName="divisoes" class="space-y-4">
             @for (divCtrl of divisoes.controls; track $index; let divIdx = $index) {
-              <div [formGroupName]="divIdx" class="rounded-3xl bg-neutral-900 border border-neutral-800 p-6 space-y-4">
-                <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
-                  <div class="flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-xl bg-amber-500 text-black font-black flex items-center justify-center text-sm">
+              <div [formGroupName]="divIdx" class="rounded-xl bg-white border border-slate-200 p-5 space-y-4 shadow-xs">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-md bg-slate-900 text-white font-bold flex items-center justify-center text-xs">
                       {{ divCtrl.get('letra')?.value || 'A' }}
                     </span>
                     <input
                       type="text"
                       formControlName="nome"
                       placeholder="Nome da Divisão (Ex: Peito, Tríceps e Ombros)"
-                      class="bg-transparent text-white font-bold text-base focus:outline-none border-b border-neutral-700 focus:border-amber-500 px-1 py-0.5"
+                      class="bg-transparent text-slate-900 font-semibold text-sm focus:outline-none border-b border-transparent focus:border-slate-900 px-1 py-0.5"
                     />
                   </div>
                   @if (divisoes.length > 1) {
                     <button
                       type="button"
                       (click)="removerDivisao(divIdx)"
-                      class="text-neutral-500 hover:text-red-400 text-xs font-semibold"
+                      class="text-rose-600 hover:text-rose-800 text-xs font-medium"
                     >
                       Remover Divisão
                     </button>
@@ -122,16 +129,16 @@ import { CriarFichaTreinoRequest, Exercicio } from '../../core/models/treino.mod
                 </div>
 
                 <!-- Exercises inside this division -->
-                <div formArrayName="itens" class="space-y-3 pt-2">
+                <div formArrayName="itens" class="space-y-3 pt-1">
                   @for (itemCtrl of getItens(divIdx).controls; track $index; let itemIdx = $index) {
-                    <div [formGroupName]="itemIdx" class="rounded-2xl bg-neutral-950 border border-neutral-800 p-4 space-y-3">
+                    <div [formGroupName]="itemIdx" class="rounded-lg bg-slate-50 border border-slate-200 p-3.5 space-y-3">
                       <div class="flex items-center justify-between">
-                        <span class="text-xs font-mono text-neutral-500 font-bold">#{{ itemIdx + 1 }}</span>
+                        <span class="text-xs font-mono text-slate-400 font-bold">#{{ itemIdx + 1 }}</span>
                         @if (getItens(divIdx).length > 1) {
                           <button
                             type="button"
                             (click)="removerItem(divIdx, itemIdx)"
-                            class="text-neutral-500 hover:text-red-400 text-xs"
+                            class="text-rose-600 hover:text-rose-800 text-xs font-medium flex items-center gap-1"
                           >
                             &times; Excluir
                           </button>
@@ -140,10 +147,10 @@ import { CriarFichaTreinoRequest, Exercicio } from '../../core/models/treino.mod
 
                       <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
                         <div class="md:col-span-5">
-                          <label class="block text-xs font-semibold text-neutral-400 mb-1">Exercício do Catálogo *</label>
+                          <label class="block text-xs font-medium text-slate-700 mb-1">Exercício *</label>
                           <select
                             formControlName="exercicioId"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-800 px-3 py-2 text-white text-xs focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-md bg-white border border-slate-300 px-2.5 py-1.5 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                           >
                             <option [ngValue]="null">Selecione um exercício...</option>
                             @for (ex of catalogoExercicios(); track ex.id) {
@@ -153,51 +160,51 @@ import { CriarFichaTreinoRequest, Exercicio } from '../../core/models/treino.mod
                         </div>
 
                         <div class="md:col-span-2">
-                          <label class="block text-xs font-semibold text-neutral-400 mb-1">Séries *</label>
+                          <label class="block text-xs font-medium text-slate-700 mb-1">Séries *</label>
                           <input
                             type="number"
                             formControlName="series"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-800 px-3 py-2 text-white text-xs focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-md bg-white border border-slate-300 px-2.5 py-1.5 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                           />
                         </div>
 
                         <div class="md:col-span-2">
-                          <label class="block text-xs font-semibold text-neutral-400 mb-1">Repetições *</label>
+                          <label class="block text-xs font-medium text-slate-700 mb-1">Repetições *</label>
                           <input
                             type="text"
                             formControlName="repeticoes"
                             placeholder="10-12"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-800 px-3 py-2 text-white text-xs focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-md bg-white border border-slate-300 px-2.5 py-1.5 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                           />
                         </div>
 
                         <div class="md:col-span-3">
-                          <label class="block text-xs font-semibold text-neutral-400 mb-1">Carga Inicial (kg) *</label>
+                          <label class="block text-xs font-medium text-slate-700 mb-1">Carga Inicial (kg) *</label>
                           <input
                             type="number"
                             step="0.5"
                             formControlName="cargaKg"
                             placeholder="0.0"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-800 px-3 py-2 text-white text-xs focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-md bg-white border border-slate-300 px-2.5 py-1.5 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                           />
                         </div>
 
                         <div class="md:col-span-4">
-                          <label class="block text-xs font-semibold text-neutral-400 mb-1">Descanso (segundos) *</label>
+                          <label class="block text-xs font-medium text-slate-700 mb-1">Descanso (segundos) *</label>
                           <input
                             type="number"
                             formControlName="descansoSegundos"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-800 px-3 py-2 text-white text-xs focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-md bg-white border border-slate-300 px-2.5 py-1.5 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                           />
                         </div>
 
                         <div class="md:col-span-8">
-                          <label class="block text-xs font-semibold text-neutral-400 mb-1">Observações da Execução</label>
+                          <label class="block text-xs font-medium text-slate-700 mb-1">Observações da Execução</label>
                           <input
                             type="text"
                             formControlName="observacoes"
                             placeholder="Ex: Drop-set na última série"
-                            class="w-full rounded-xl bg-neutral-900 border border-neutral-800 px-3 py-2 text-white text-xs focus:border-amber-500 focus:outline-none"
+                            class="w-full rounded-md bg-white border border-slate-300 px-2.5 py-1.5 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                           />
                         </div>
                       </div>
@@ -207,9 +214,12 @@ import { CriarFichaTreinoRequest, Exercicio } from '../../core/models/treino.mod
                   <button
                     type="button"
                     (click)="adicionarItem(divIdx)"
-                    class="w-full py-2.5 rounded-xl border border-dashed border-neutral-700 hover:border-amber-500 text-neutral-400 hover:text-amber-400 text-xs font-semibold transition-colors"
+                    class="w-full py-2 rounded-lg border border-dashed border-slate-300 hover:border-slate-400 bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 text-xs font-medium transition-colors flex items-center justify-center gap-1 min-h-[38px]"
                   >
-                    + Adicionar Exercício nesta Divisão
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Adicionar Exercício nesta Divisão
                   </button>
                 </div>
               </div>
@@ -217,11 +227,11 @@ import { CriarFichaTreinoRequest, Exercicio } from '../../core/models/treino.mod
           </div>
         </div>
 
-        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+        <div class="flex justify-end gap-3 pt-3 border-t border-slate-200">
           <button
             type="submit"
             [disabled]="form.invalid || loading()"
-            class="px-8 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold text-sm transition-colors shadow-lg shadow-amber-500/10"
+            class="px-5 py-2.5 rounded-md bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-medium text-xs transition-colors shadow-xs"
           >
             {{ loading() ? 'Prescrevendo...' : 'Salvar e Ativar Ficha' }}
           </button>

@@ -9,133 +9,133 @@ import { CheckInResponse } from '../../core/models/frequencia.models';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="space-y-8 max-w-4xl mx-auto p-4">
+    <div class="space-y-6 max-w-4xl mx-auto p-2 sm:p-4">
       <!-- Header -->
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between bg-white border border-slate-200 p-6 rounded-xl shadow-xs">
         <div>
-          <span class="text-xs uppercase font-bold tracking-widest text-amber-500">Controle de Portaria</span>
-          <h2 class="text-2xl font-black text-white tracking-tight">Terminal de Check-in</h2>
+          <span class="text-[11px] uppercase font-bold tracking-wider text-slate-400">Controle de Portaria & Acesso</span>
+          <h2 class="text-2xl font-bold text-slate-900 tracking-tight mt-0.5">Terminal de Check-in</h2>
         </div>
         <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
-          <span class="text-xs font-semibold text-neutral-400">Scanner Ativo</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span class="text-xs font-medium text-slate-600">Scanner Ativo</span>
         </div>
       </div>
 
       <!-- Scanner Input Box -->
-      <div class="rounded-3xl bg-neutral-900 border border-neutral-800 p-6 shadow-2xl space-y-4">
-        <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-400">
+      <div class="rounded-xl bg-white border border-slate-200 p-6 shadow-xs space-y-3">
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">
           Entrada do Scanner / Token QR Code
         </label>
-        <div class="flex gap-3">
+        <div class="flex gap-2 sm:gap-3">
           <input
             #tokenInput
             type="text"
             [(ngModel)]="tokenValue"
             (keyup.enter)="processarCheckIn()"
-            placeholder="Aponte o leitor de QR Code ou cole o token..."
-            class="flex-1 rounded-2xl bg-neutral-950 border border-neutral-800 px-5 py-3.5 text-white font-mono text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            placeholder="Aponte o leitor de QR Code ou digite o token..."
+            class="flex-1 rounded-lg bg-white border border-slate-300 px-4 py-2.5 text-slate-900 font-mono text-sm placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
             [disabled]="loading()"
           />
           <button
             (click)="processarCheckIn()"
             [disabled]="loading() || !tokenValue.trim()"
-            class="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold text-sm transition-colors flex items-center gap-2"
+            class="px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-medium text-xs transition-colors shadow-xs flex items-center gap-1.5"
           >
-            {{ loading() ? 'Validando...' : 'Liberar' }}
+            {{ loading() ? 'Validando...' : 'Validar' }}
           </button>
         </div>
-        <p class="text-xs text-neutral-500">
-          Suporta leitores ópticos USB standard (envio automático ao ler) e digitação manual.
+        <p class="text-xs text-slate-400">
+          Compatível com leitores ópticos USB standard (envio automático com tecla Enter) e digitação manual.
         </p>
       </div>
 
       <!-- Feedback Banner (Instant Green/Red result) -->
       @if (resultado()) {
         @if (resultado()!.status === 'LIBERADO') {
-          <div class="rounded-3xl bg-emerald-950/80 border-2 border-emerald-500/80 p-8 shadow-2xl shadow-emerald-900/30 flex items-start gap-6 animate-fade-in">
-            <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-3xl font-black shrink-0">
+          <div class="rounded-xl bg-emerald-50 border border-emerald-200 p-6 shadow-xs flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700 text-2xl font-bold shrink-0">
               ✓
             </div>
-            <div class="space-y-1">
-              <span class="inline-flex px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500 text-black">
-                Acesso Liberado
+            <div class="space-y-0.5">
+              <span class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-200">
+                Acesso Autorizado
               </span>
-              <h3 class="text-2xl font-bold text-white">{{ resultado()!.alunoNome }}</h3>
-              <p class="text-sm text-emerald-300 font-medium">{{ resultado()!.planoNome }}</p>
-              <p class="text-xs text-neutral-400 mt-2">{{ resultado()!.mensagem }}</p>
+              <h3 class="text-xl font-bold text-slate-900">{{ resultado()!.alunoNome }}</h3>
+              <p class="text-xs text-emerald-800 font-medium">{{ resultado()!.planoNome }}</p>
+              <p class="text-xs text-slate-600 mt-1">{{ resultado()!.mensagem }}</p>
             </div>
           </div>
         } @else {
-          <div class="rounded-3xl bg-red-950/80 border-2 border-red-500/80 p-8 shadow-2xl shadow-red-900/30 flex items-start gap-6 animate-fade-in">
-            <div class="w-16 h-16 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 text-3xl font-black shrink-0">
+          <div class="rounded-xl bg-rose-50 border border-rose-200 p-6 shadow-xs flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg bg-rose-100 border border-rose-300 flex items-center justify-center text-rose-700 text-2xl font-bold shrink-0">
               ✕
             </div>
-            <div class="space-y-1">
-              <span class="inline-flex px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500 text-white">
+            <div class="space-y-0.5">
+              <span class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">
                 Acesso Bloqueado
               </span>
-              <h3 class="text-2xl font-bold text-white">{{ resultado()!.alunoNome || 'Aluno' }}</h3>
-              <p class="text-sm font-semibold text-red-300 font-mono">{{ resultado()!.motivo }}</p>
-              <p class="text-xs text-red-200 mt-2">{{ resultado()!.mensagem }}</p>
+              <h3 class="text-xl font-bold text-slate-900">{{ resultado()!.alunoNome || 'Aluno' }}</h3>
+              <p class="text-xs font-semibold text-rose-700 font-mono">{{ resultado()!.motivo }}</p>
+              <p class="text-xs text-slate-600 mt-1">{{ resultado()!.mensagem }}</p>
             </div>
           </div>
         }
       }
 
       @if (erroGrave()) {
-        <div class="rounded-2xl bg-red-950/60 border border-red-800 p-4 text-sm text-red-300 flex items-center justify-between">
+        <div class="rounded-lg bg-rose-50 border border-rose-200 p-3.5 text-xs text-rose-700 flex items-center justify-between">
           <span>{{ erroGrave() }}</span>
-          <button (click)="erroGrave.set(null)" class="text-red-400 hover:text-white">&times;</button>
+          <button (click)="erroGrave.set(null)" class="text-rose-500 hover:text-rose-800 text-base">&times;</button>
         </div>
       }
 
       <!-- Today's Access Log -->
-      <div class="space-y-4 pt-4 border-t border-neutral-800">
+      <div class="space-y-3 pt-2">
         <div class="flex items-center justify-between">
-          <h3 class="text-lg font-bold text-white">Frequência Registrada Hoje</h3>
+          <h3 class="text-base font-bold text-slate-900">Frequência Registrada Hoje</h3>
           <button
             (click)="carregarHoje()"
-            class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-700 transition-colors"
+            class="text-xs font-medium px-3 py-1.5 rounded-md border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
           >
             Atualizar Lista
           </button>
         </div>
 
-        <div class="overflow-x-auto rounded-2xl border border-neutral-800 bg-neutral-900/40">
-          <table class="w-full text-left text-sm text-neutral-300">
-            <thead class="bg-neutral-950/80 text-xs uppercase tracking-wider text-neutral-400 border-b border-neutral-800">
+        <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-xs">
+          <table class="w-full text-left text-sm text-slate-700">
+            <thead class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 font-semibold border-b border-slate-200">
               <tr>
-                <th class="px-6 py-4">Horário</th>
-                <th class="px-6 py-4">Aluno</th>
-                <th class="px-6 py-4">Status</th>
-                <th class="px-6 py-4">Motivo / Obs</th>
+                <th class="px-5 py-3">Horário</th>
+                <th class="px-5 py-3">Aluno</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3">Motivo / Obs</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-neutral-800">
+            <tbody class="divide-y divide-slate-100">
               @for (item of frequenciaService.checkInsHoje(); track item.id) {
-                <tr class="hover:bg-neutral-800/40 transition-colors">
-                  <td class="px-6 py-4 font-mono text-xs text-neutral-400">{{ formatarHorario(item.dataHora) }}</td>
-                  <td class="px-6 py-4 font-medium text-white">{{ item.alunoNome }}</td>
-                  <td class="px-6 py-4">
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                  <td class="px-5 py-3 font-mono text-xs text-slate-500">{{ formatarHorario(item.dataHora) }}</td>
+                  <td class="px-5 py-3 font-semibold text-slate-900">{{ item.alunoNome }}</td>
+                  <td class="px-5 py-3">
                     @if (item.status === 'LIBERADO') {
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                         Liberado
                       </span>
                     } @else {
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-950/80 text-red-400 border border-red-800/60">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">
                         Bloqueado
                       </span>
                     }
                   </td>
-                  <td class="px-6 py-4 text-xs text-neutral-400 font-mono">
+                  <td class="px-5 py-3 text-xs text-slate-500 font-mono">
                     {{ item.motivoBloqueio || '-' }}
                   </td>
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="4" class="px-6 py-8 text-center text-neutral-500">
-                    Nenhum check-in registrado no dia de hoje até o momento.
+                  <td colspan="4" class="px-5 py-8 text-center text-slate-400 text-xs">
+                    Nenhum check-in registrado na catraca até o momento no dia de hoje.
                   </td>
                 </tr>
               }

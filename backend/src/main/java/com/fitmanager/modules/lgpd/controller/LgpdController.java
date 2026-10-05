@@ -12,11 +12,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
-
+import java.security.Principal;
 import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/lgpd")
@@ -29,17 +27,17 @@ public class LgpdController {
     }
 
     @GetMapping("/termos/vigente")
-    public ResponseEntity<TermoVigenteDTO> obterTermoVigente(@AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails != null ? userDetails.getUsername() : null;
+    public ResponseEntity<TermoVigenteDTO> obterTermoVigente(Principal principal) {
+        String email = principal != null ? principal.getName() : null;
         return ResponseEntity.ok(lgpdService.obterTermoVigenteComStatus(email));
     }
 
     @PostMapping("/termos/{id}/aceite")
     public ResponseEntity<Map<String, String>> registrarAceite(
             @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails userDetails,
+            Principal principal,
             HttpServletRequest request) {
-        String email = userDetails != null ? userDetails.getUsername() : "";
+        String email = principal != null ? principal.getName() : "";
         String ip = request.getRemoteAddr();
         String userAgent = request.getHeader("User-Agent");
 
@@ -49,9 +47,9 @@ public class LgpdController {
 
     @GetMapping("/meus-dados/exportar")
     public ResponseEntity<ExportacaoDadosLgpdDTO> exportarDados(
-            @AuthenticationPrincipal UserDetails userDetails,
+            Principal principal,
             HttpServletRequest request) {
-        String email = userDetails != null ? userDetails.getUsername() : "";
+        String email = principal != null ? principal.getName() : "";
         String ip = request.getRemoteAddr();
 
         ExportacaoDadosLgpdDTO exportacao = lgpdService.exportarDados(email, ip);
@@ -64,9 +62,9 @@ public class LgpdController {
 
     @PostMapping("/meus-dados/anonimizar")
     public ResponseEntity<Map<String, String>> anonimizar(
-            @AuthenticationPrincipal UserDetails userDetails,
+            Principal principal,
             HttpServletRequest request) {
-        String email = userDetails != null ? userDetails.getUsername() : "";
+        String email = principal != null ? principal.getName() : "";
         String ip = request.getRemoteAddr();
 
         lgpdService.anonimizarTitular(email, ip);

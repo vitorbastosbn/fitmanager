@@ -10,65 +10,74 @@ import { Cobranca, FormaPagamento, PagamentoResponse } from '../../core/models/f
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   styles: [':host { display: block; }'],
   template: `
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-      <div class="w-full max-w-md rounded-2xl bg-neutral-900 border border-neutral-800 p-6 shadow-2xl">
-        <div class="flex items-center justify-between border-b border-neutral-800 pb-4">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+      <div class="w-full max-w-md rounded-xl bg-white border border-slate-200 p-6 shadow-xl space-y-4 animate-fade-in">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <h3 class="text-xl font-bold text-white">Quitar Cobrança</h3>
-            <p class="text-sm text-neutral-400">Fatura #{{ cobranca.id }} - {{ cobranca.alunoNome }}</p>
+            <h3 class="text-base font-bold text-slate-900">Quitar Cobrança</h3>
+            <p class="text-xs text-slate-500">Fatura #{{ cobranca.id }} &bull; {{ cobranca.alunoNome }}</p>
           </div>
-          <button (click)="close.emit()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+          <button (click)="close.emit()" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1 leading-none">&times;</button>
         </div>
 
         @if (errorMessage()) {
-          <div class="mt-4 rounded-xl bg-red-950/50 border border-red-800/80 p-3 text-sm text-red-300">
-            {{ errorMessage() }}
+          <div class="rounded-lg bg-rose-50 border border-rose-200 p-3 text-xs text-rose-800 flex items-center gap-2">
+            <svg class="w-4 h-4 text-rose-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="font-medium">{{ errorMessage() }}</span>
           </div>
         }
 
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-6 space-y-4">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
           <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1">
-              Valor Original: R$ {{ cobranca.valor.toFixed(2) }}
+            <label class="block text-xs font-medium text-slate-700 mb-1">
+              Valor Original: <span class="font-bold text-slate-900">R$ {{ cobranca.valor.toFixed(2) }}</span>
             </label>
             <div class="relative">
-              <span class="absolute left-3 top-2.5 text-neutral-500 font-medium">R$</span>
+              <span class="absolute left-3 top-2.5 text-slate-400 font-medium text-xs">R$</span>
               <input
                 type="number"
                 step="0.01"
                 formControlName="valorPago"
-                class="w-full rounded-xl bg-neutral-950 border border-neutral-800 pl-10 pr-4 py-2.5 text-white focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                class="w-full rounded-md bg-white border border-slate-300 pl-9 pr-3 py-2 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                 placeholder="0.00"
               />
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+            <label class="block text-xs font-medium text-slate-700 mb-1.5">
               Forma de Pagamento *
             </label>
             <div class="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 (click)="setForma('PIX')"
-                [class]="form.value.formaPagamento === 'PIX' ? 'bg-amber-500 text-black font-semibold' : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'"
-                class="py-2.5 rounded-xl text-sm transition-colors text-center"
+                [class]="form.value.formaPagamento === 'PIX'
+                  ? 'bg-slate-900 text-white font-medium shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-2xs'"
+                class="py-2 rounded-md text-xs transition-colors text-center min-h-[38px]"
               >
                 PIX
               </button>
               <button
                 type="button"
                 (click)="setForma('CARTAO_CREDITO')"
-                [class]="form.value.formaPagamento === 'CARTAO_CREDITO' ? 'bg-amber-500 text-black font-semibold' : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'"
-                class="py-2.5 rounded-xl text-sm transition-colors text-center"
+                [class]="form.value.formaPagamento === 'CARTAO_CREDITO'
+                  ? 'bg-slate-900 text-white font-medium shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-2xs'"
+                class="py-2 rounded-md text-xs transition-colors text-center min-h-[38px]"
               >
                 Crédito
               </button>
               <button
                 type="button"
                 (click)="setForma('CARTAO_DEBITO')"
-                [class]="form.value.formaPagamento === 'CARTAO_DEBITO' ? 'bg-amber-500 text-black font-semibold' : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'"
-                class="py-2.5 rounded-xl text-sm transition-colors text-center"
+                [class]="form.value.formaPagamento === 'CARTAO_DEBITO'
+                  ? 'bg-slate-900 text-white font-medium shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-2xs'"
+                class="py-2 rounded-md text-xs transition-colors text-center min-h-[38px]"
               >
                 Débito
               </button>
@@ -76,41 +85,41 @@ import { Cobranca, FormaPagamento, PagamentoResponse } from '../../core/models/f
           </div>
 
           <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+            <label class="block text-xs font-medium text-slate-700 mb-1">
               Identificador da Transação (Opcional)
             </label>
             <input
                 type="text"
                 formControlName="identificadorTransacao"
-                class="w-full rounded-xl bg-neutral-950 border border-neutral-800 px-4 py-2.5 text-white focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 text-sm"
+                class="w-full rounded-md bg-white border border-slate-300 px-3 py-2 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                 placeholder="Ex: NSU / Código PIX E2E"
             />
           </div>
 
           <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+            <label class="block text-xs font-medium text-slate-700 mb-1">
               Observação (Opcional)
             </label>
             <textarea
                 rows="2"
                 formControlName="observacao"
-                class="w-full rounded-xl bg-neutral-950 border border-neutral-800 px-4 py-2 text-white focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 text-sm"
+                class="w-full rounded-md bg-white border border-slate-300 px-3 py-2 text-slate-900 text-xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 shadow-2xs"
                 placeholder="Observações do atendente"
             ></textarea>
           </div>
 
-          <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <div class="flex justify-end gap-2.5 pt-3 border-t border-slate-100">
             <button
               type="button"
               (click)="close.emit()"
-              class="px-4 py-2.5 rounded-xl text-sm font-semibold text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
+              class="px-4 py-2 rounded-md text-xs font-medium text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors shadow-2xs min-h-[38px]"
             >
               Cancelar
             </button>
             <button
               type="submit"
               [disabled]="form.invalid || loading()"
-              class="px-6 py-2.5 rounded-xl text-sm font-bold bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black transition-colors"
+              class="px-5 py-2 rounded-md text-xs font-medium bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white transition-colors shadow-xs min-h-[38px]"
             >
               {{ loading() ? 'Processando...' : 'Confirmar Pagamento' }}
             </button>
